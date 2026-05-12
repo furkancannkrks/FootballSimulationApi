@@ -1,54 +1,54 @@
 # Football Analytics & Match Simulation Dashboard
 
-Bu proje, modern bir futbol veri analitiği ve maç simülasyonu uygulamasıdır. Başlangıçta Python ile prototiplenmiş, daha sonra ölçeklenebilirlik ve performans gereksinimleri doğrultusunda **ASP.NET Core 10** mimarisine taşınmıştır.
+This project is a modern football data analytics and match simulation application. Initially prototyped with Python, it was migrated to **ASP.NET Core 10** architecture to meet high scalability and performance requirements.
 
-## 🚀 Öne Çıkan Özellikler
+## 🚀 Key Features
 
-* **Gelişmiş Scouting Sistemi:** Veritabanındaki binlerce oyuncuyu; pozisyon, yaş (opsiyonel), şut, pas, savunma metrikleri gibi 30'dan fazla parametre ile filtreleme imkanı.
-* **Sunucu Taraflı Reyting (Weighted Rating):** Oyuncu performanslarını hesaplarken yükü uygulama katmanından alıp veritabanına devreden, PostgreSQL `PERCENT_RANK()` pencere fonksiyonlarını kullanan performans odaklı mimari.
-* **İnteraktif Maç Simülasyonu:**
-    * Sürükle-bırak (Drag & Drop) destekli futbol sahası arayüzü.
-    * Dinamik diziliş (Formation) seçimi (4-3-3, 4-4-2 vb.).
-    * xG (Gol Beklentisi), anahtar pas ve savunma aksiyonlarını temel alan olasılıksal simülasyon algoritması.
-* **Responsive Tasarım:** Dark mode temalı, mobil uyumlu ve modern kullanıcı arayüzü.
+* **Advanced Scouting System:** Ability to filter thousands of players in the database using more than 30 parameters such as position, age (optional), shooting, passing, and defensive metrics.
+* **Server-Side Rating (Weighted Rating):** A performance-oriented architecture that offloads the player performance calculation from the application layer to the database, utilizing PostgreSQL `PERCENT_RANK()` window functions.
+* **Interactive Match Simulation:**
+    * **Drag & Drop** supported football pitch interface for squad selection.
+    * Dynamic formation selection (4-3-3, 4-4-2, etc.).
+    * Probabilistic simulation algorithm based on **xG (Expected Goals)**, key passes, and defensive actions.
+* **Responsive Design:** A modern user interface with a dark mode theme and mobile compatibility.
 
-## 🛠️ Teknoloji Yığını
+## 🛠️ Technology Stack
 
 ### Backend
 * **Framework:** ASP.NET Core 10 (Web API)
-* **ORM:** Entity Framework Core (Database-First yaklaşımı)
-* **Veritabanı:** PostgreSQL
-* **Mimari:** N-Tier Architecture (Repository, Service, Controller, DTO)
-* **Asenkron Programlama:** Tüm I/O işlemleri `async/await` yapısı ile thread-safe olarak kurgulanmıştır.
+* **ORM:** Entity Framework Core (Database-First approach)
+* **Database:** PostgreSQL
+* **Architecture:** N-Tier Architecture (Repository, Service, Controller, DTO)
+* **Asynchronous Programming:** All I/O operations are designed to be thread-safe using the `async/await` pattern.
 
 ### Frontend
-* **Dil:** Saf JavaScript (Vanilla JS), HTML5, CSS3
-* **UI Mantığı:** DOM Manipülasyonu, Fetch API, HTML5 Drag and Drop API
-* **Tasarım:** CSS Grid ve Absolute Positioning ile dinamik saha yerleşimi.
+* **Language:** Pure JavaScript (Vanilla JS), HTML5, CSS3
+* **UI Logic:** DOM Manipulation, Fetch API, HTML5 Drag and Drop API
+* **Design:** Dynamic pitch layout using CSS Grid and Absolute Positioning.
 
-## 📊 Algoritma Detayları
+## 📊 Algorithm Details
 
-### Oyuncu Reyting Sistemi
-Reytingler, oyuncunun tüm sezon istatistiklerinin ağırlıklandırılarak normalize edilmesiyle hesaplanır:
+### Player Rating System
+Ratings are calculated by weighting and normalizing the player's overall season statistics:
 `raw_score = (xg * 2.5) + (key_passes * 0.8) + (defensive_actions * 0.15)`
-Bu değer PostgreSQL üzerinde `PERCENT_RANK()` ile 1.0 - 10.0 arasına sıkıştırılarak veritabanı seviyesinde hesaplanır.
+This value is processed at the database level using PostgreSQL `PERCENT_RANK()` and scaled between 1.0 and 10.0.
 
-### Simülasyon Motoru
-Seçilen 11'lerin toplam hücum ve savunma güçleri oranlanarak;
-* Galibiyet/Beraberlik/Mağlubiyet ihtimalleri,
-* 2.5 Alt/Üst baremleri,
-* Karşılıklı Gol (KG) durumu hesaplanır.
+### Simulation Engine
+By proportioning the total offensive and defensive strengths of the selected starting 11s, the engine calculates:
+* Win / Draw / Loss probabilities,
+* Over / Under 2.5 goal thresholds,
+* **BTTS** (Both Teams to Score) status.
 
-## ⚙️ Kurulum ve Çalıştırma
+## ⚙️ Installation and Setup
 
-1.  **Veritabanı Hazırlığı:**
-    * PostgreSQL sunucunuzda gerekli tabloların (`player_season_stats`, `team_match_stats`) hazır olduğundan emin olun.
-2.  **Bağlantı Ayarı:**
-    * `appsettings.json` dosyasındaki `ConnectionStrings` bölümünü kendi PostgreSQL bilgilerinizle güncelleyin.
-3.  **Çalıştırma:**
+1.  **Database Preparation:**
+    * Ensure that the required tables (`player_season_stats`, `team_match_stats`) are ready in your PostgreSQL server.
+2.  **Configuration:**
+    * Update the `ConnectionStrings` section in the `appsettings.json` file with your PostgreSQL credentials.
+3.  **Execution:**
     ```bash
     dotnet restore
     dotnet run
     ```
-4.  **Erişim:**
-    * Tarayıcıdan `http://localhost:5000` (veya ilgili port) adresine gidin.
+4.  **Access:**
+    * Navigate to `http://localhost:5000` (or the designated port) in your browser.
