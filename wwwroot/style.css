@@ -259,6 +259,7 @@ button {
     flex: 1;
     padding: 2.5rem;
     overflow-y: auto;
+    min-height: 0;
 }
 
 .tab-pane {
@@ -271,6 +272,7 @@ button {
     display: block;
     opacity: 1;
     animation: fadeIn 0.4s ease forwards;
+    height: 100%;
 }
 
 @keyframes fadeIn {
@@ -1198,5 +1200,13 @@ tr:hover td {
     pointer-events: none;
     line-height: 1.1;
     margin-top: 2px;
+}
+#tab-management {
+    height: auto;
+    min-height: 100%;
+}
+
+#tab-management .management-layout {
+    overflow: visible;
 }
 
